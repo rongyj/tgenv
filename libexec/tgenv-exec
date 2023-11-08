@@ -18,15 +18,18 @@ set -e
 source "${TGENV_ROOT}/libexec/helpers"
 
 debug 'Getting version from tgenv-version-name';
-TGENV_VERSION="$(tgenv-version-name)" \
-  && debug "TGENV_VERSION is ${TGENV_VERSION}" \
-  || {
-    # Errors will be logged from tgenv-version name,
-    # we don't need to trouble STDERR with repeat information here
-    error_and_die 'Failed to get version from tgenv-version-name';
-  };
-export TGENV_VERSION;
-
+debug "TGENV_VERSION from environemnt variable is ${TGENV_VERSION}"
+if [ ! -n "${TGENV_VERSION}" ]; then
+  TGENV_VERSION="$(tgenv-version-name)" \
+    && debug "TGENV_VERSION is ${TGENV_VERSION}" \
+    || {
+      # Errors will be logged from tgenv-version name,
+      # we don't need to trouble STDERR with repeat information here
+      error_and_die 'Failed to get version from tgenv-version-name';
+    };
+  export TGENV_VERSION;
+fi
+debug "set TGENV_VERSION to ${TGENV_VERSION}"
 if [ ! -d "${TGENV_ROOT}/versions/${TGENV_VERSION}" ]; then
   if [ "${TGENV_AUTO_INSTALL:-true}" == "true" ]; then
     info "version '${TGENV_VERSION}' is not installed (set by $(tgenv-version-file)). Installing now as TGENV_AUTO_INSTALL==true";
