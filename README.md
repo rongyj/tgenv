@@ -196,6 +196,14 @@ terragrunt v0.10.3
 ```
 
 ### Environment Variables :package:
+#### `TGENV_VERSION`
+
+String (Default: "")
+
+Set the terragrunt version from environment variable TGENV_VERSION.
+
+* unset/empty-string: It will pickup the terragrunt version from libexec/tgenv-version-name
+* set: Will use the version setting from this env variable for the terragrunt version. This can help to manage multiple terragrunt version for different shell terminals. Different terminal can keep its own terragrunt version
 
 #### `TGENV_AUTO_INSTALL`
 
